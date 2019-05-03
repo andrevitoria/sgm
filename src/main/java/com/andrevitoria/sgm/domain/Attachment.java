@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import com.andrevitoria.sgm.domain.enums.AttachmentStatus;
@@ -20,16 +21,20 @@ public class Attachment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String fileName;
-	private Integer data;
+	@Lob
+	private byte[] data;
+	private String fileType;
 	private AttachmentStatus status;
 	private Date uploadDate;
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "protocol_id")
 	private Protocol protocol;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "document_id")
 	private Document document;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "contract_id")
 	private Contract contract;
@@ -37,13 +42,14 @@ public class Attachment implements Serializable {
 	public Attachment() {
 	}
 
-	public Attachment(Integer id, String fileName, Integer data, AttachmentStatus status, Date uploadDate,
+	public Attachment(Integer id, String fileName, byte[] data,String fileType, AttachmentStatus status, Date uploadDate,
 			Protocol protocol, Document document, Contract contract) {
 		super();
 		this.id = id;
 		this.fileName = fileName;
 		this.data = data;
 		this.status = status;
+		this.fileType = fileType;
 		this.uploadDate = uploadDate;
 		this.protocol = protocol;
 		this.document = document;
@@ -66,11 +72,11 @@ public class Attachment implements Serializable {
 		this.fileName = fileName;
 	}
 
-	public Integer getData() {
+	public byte[] getData() {
 		return data;
 	}
 
-	public void setData(Integer data) {
+	public void setData(byte[] data) {
 		this.data = data;
 	}
 
@@ -112,5 +118,13 @@ public class Attachment implements Serializable {
 
 	public void setContract(Contract contract) {
 		this.contract = contract;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 }

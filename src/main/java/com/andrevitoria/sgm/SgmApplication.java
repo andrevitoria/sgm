@@ -46,8 +46,8 @@ public class SgmApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Document do1 = new Document(null, "CN", false, new Date(), null);
-		Document do2 = new Document(null, "GFIP", false, new Date(), null);
+		Document do1 = new Document(null, "CN", false, new Date(), new Date(), null);
+		Document do2 = new Document(null, "GFIP", false, new Date(), new Date(), null);
 
 		Contract co1 = new Contract("CT03162014");
 		Contract co2 = new Contract("CT00012014");
@@ -68,7 +68,7 @@ public class SgmApplication implements CommandLineRunner {
 		classificationRepository.saveAll(Arrays.asList(ca1));
 		characteristicRepository.saveAll(Arrays.asList(ch1, ch2));
 
-		Document do3 = new Document(null, "Antecedentes Criminais", false, new Date(), ca1);
+		Document do3 = new Document(null, "Antecedentes Criminais", false, new Date(), new Date(), ca1);
 		documentRepository.saveAll(Arrays.asList(do3));
 
 		Protocol pr1 = new Protocol("2018.000001", 201901, ProtocolStatus.CLOSED);
@@ -76,9 +76,10 @@ public class SgmApplication implements CommandLineRunner {
 		Protocol pr3 = new Protocol("2019.000002", 201901, ProtocolStatus.OPENED);
 		protocolRepository.saveAll(Arrays.asList(pr1, pr2, pr3));
 
-		Attachment at1 = new Attachment(null, "dcc.docx", 0, AttachmentStatus.SENDED, new Date(), pr1, do1, co1);
-		Attachment at2 = new Attachment(null, "dcc.docx", 0, AttachmentStatus.SENDED, new Date(), pr1, do1, co1);
-		Attachment at3 = new Attachment(null, "dcc.docx", 0, AttachmentStatus.SENDED, new Date(), pr1, do1, co1);
+		byte[] ab = null;
+		Attachment at1 = new Attachment(null, "dcc.docx", ab,null, AttachmentStatus.SENDED, new Date(), pr1, do1, co1);
+		Attachment at2 = new Attachment(null, "dcc.docx", ab,null, AttachmentStatus.SENDED, new Date(), pr1, do1, co1);
+		Attachment at3 = new Attachment(null, "dcc.docx", ab,null, AttachmentStatus.SENDED, new Date(), pr1, do1, co1);
 		attachmentRepository.saveAll(Arrays.asList(at1, at2, at3));
 	}
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Document implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,24 +23,43 @@ public class Document implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column(unique=true)
 	private String description;
 	private Boolean activated;
 	private Date created;
+	private Date modified;
+
 	@ManyToOne
-	@JoinColumn(name="classification_id")
+	@JoinColumn(name = "classification_id")
 	private Classification classification;
 	
+	public Classification getClassification() {
+		return classification;
+	}
+	public void setClassification(Classification classification) {
+		this.classification = classification;
+	}
+
+	@JsonIgnore
 	@ManyToMany(mappedBy = "documents")
 	private List<Contract> contracts = new ArrayList<>();
 
 	public Document() {
 	}
-
-	public Document(Integer id, String description, Boolean activated, Date created, Classification classification) {
+	public Document(Integer id, String description, Boolean activated, Date created, Date modified) {
 		this.id = id;
 		this.description = description;
 		this.activated = activated;
 		this.created = created;
+		this.modified = modified;
+	}
+	public Document(Integer id, String description, Boolean activated, Date created, Date modified,
+			Classification classification) {
+		this.id = id;
+		this.description = description;
+		this.activated = activated;
+		this.created = created;
+		this.modified = modified;
 		this.classification = classification;
 	}
 
@@ -71,6 +93,14 @@ public class Document implements Serializable {
 
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 	public List<Contract> getContracts() {

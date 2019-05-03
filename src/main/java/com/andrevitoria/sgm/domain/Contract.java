@@ -10,14 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Contract implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
-	@JsonIgnore
+
 	@ManyToMany
 	@JoinTable(name = "CONTRACT_DOCUMENT", joinColumns = @JoinColumn(name = "contract_id"), inverseJoinColumns = @JoinColumn(name = "document_id"))
 	private List<Document> documents = new ArrayList<>();

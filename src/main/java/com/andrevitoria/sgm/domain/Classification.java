@@ -10,14 +10,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Classification implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@OneToMany(mappedBy = "classification")
 	private List<Characteristic> characteristics = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "classification")
+	private List<Document> documents = new ArrayList<>();
+	
+	public List<Document> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
 
 	public Classification() {
 	};
